@@ -1,0 +1,124 @@
+/* ===== BASE STYLES ===== */
+.game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #0a0a16;
+    font-family: 'Courier New', monospace;
+}
+
+/* ===== CANVAS STYLING ===== */
+#game-canvas {
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(100, 150, 255, 0.2);
+}
+
+/* ===== UI ELEMENTS ===== */
+.game-ui {
+    position: fixed;
+    pointer-events: none;
+    color: #e0e0ff;
+    text-shadow: 0 0 10px rgba(100, 150, 255, 0.5);
+}
+
+/* Time Energy Bar */
+.energy-bar {
+    top: 20px;
+    left: 20px;
+    width: 200px;
+    height: 25px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #4a8fe7;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.energy-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4a8fe7 0%, #63b4ff 100%);
+    transition: width 0.3s ease;
+}
+
+/* Paradox Counter */
+.paradox-counter {
+    top: 20px;
+    right: 20px;
+    font-size: 1.5em;
+    color: #ff5555;
+}
+
+/* Reality State Indicator */
+.reality-indicator {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.2em;
+    padding: 8px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #63b4ff;
+    border-radius: 15px;
+    animation: reality-pulse 2s infinite;
+}
+
+@keyframes reality-pulse {
+    0% { opacity: 0.8; }
+    50% { opacity: 0.4; }
+    100% { opacity: 0.8; }
+}
+
+/* ===== CONTROLS OVERLAY ===== */
+.controls-overlay {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #63b4ff55;
+}
+
+.controls-overlay kbd {
+    display: inline-block;
+    padding: 3px 8px;
+    background: #1a2a42;
+    border: 1px solid #4a8fe7;
+    border-radius: 4px;
+    margin: 2px;
+}
+
+/* ===== BUTTONS ===== */
+.game-button {
+    padding: 10px 25px;
+    background: linear-gradient(145deg, #1a2a42 0%, #0a1421 100%);
+    border: none;
+    border-radius: 6px;
+    color: #63b4ff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.game-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(100, 150, 255, 0.4);
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .game-ui {
+        font-size: 0.8em;
+    }
+    
+    .energy-bar {
+        width: 150px;
+        height: 20px;
+    }
+    
+    .controls-overlay {
+        bottom: 10px;
+        right: 10px;
+        padding: 10px;
+    }
+}
