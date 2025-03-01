@@ -1,0 +1,97 @@
+html
+Copy code
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChronoShift</title>
+    <style> canvas { border: 2px solid white } </style>
+</head>
+<body style="background: black; color: white; text-align: center">
+    <h1>🕒 CHRONOSHIFT</h1>
+    <p>Arrow keys to move | SPACE to rewind time</p>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+    <script>
+const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+let player;
+let cursors;
+let rewindStack = [];
+let isRewinding = false;
+let orbs;
+
+const game = new Phaser.Game(config);
+
+function preload() {
+    this.load.image('player', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAmElEQVR42mNkoBAwUqL5/6vXr/5TBRgZGRnIUvzr169/T58+/Q8VJ1kzRgDkgf+PHj36DxUnWTNWAKIZ5BmSNWMH4Z8//6FiJGvGDMBv376BxYjSjD8IUWKQKM34NUN8QZJmiGaiNEM0E6UZopkozRDNBGIRqhlfEMLFiNaMLwhJ0kyUZogPoJpJ0ozVAxDNUI8QrRmrB0CaIR4hWjNWD+DSTLQHAGwqy4C4k4rDAAAAAElFTkSuQmCC');
+    this.load.image('orb', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAmklEQVR42mNkoCJgJEvz/1evX/0nCzAyMjKSpfnXr1//nj59+h8qTpJmjADIA/8fPXr0HypOsmasAEQzyDMka8YOwj9//oDFidKMHYRfvnwBixGlGX8QosQgUZrxayYchHDNRGmGaCZKM1QzUZqhmonSDNUMCULiNEM0E4hFqGZ8QQgXI1ozviAkSTNRmiE+gGomSTNWD0A0Qz1CtGasHgBphniEaM1YPQDSjC8WAXE9s5Q5gCg/AAAAAElFTkSuQmCC');
+}
+
+function create() {
+    // Player setup
+    player = this.add.sprite(400, 300, 'player');
+    player.setScale(0.5);
+
+    // Time orbs
+    orbs = this.physics.add.group({
+        key: 'orb',
+        quantity: 5,
+        setXY: { x: Phaser.Math.Between(50, 750), y: Phaser.Math.Between(50, 550), stepX: 150 }
+    });
+
+    // Input
+    cursors = this.input.keyboard.createCursorKeys();
+    this.input.keyboard.addKey('SPACE').on('down', () => {
+        if (!isRewinding && rewindStack.length > 0) {
+            isRewinding = true;
+            this.time.addEvent({
+                delay: 50,
+                callback: rewindTime,
+                callbackScope: this,
+                repeat: rewindStack.length - 1
+            });
+        }
+    });
+
+    // Instructions
+    this.add.text(10, 10, 'Collect time orbs\nSPACE: Rewind 5 seconds', 
+        { fontSize: '18px', fill: '#fff' });
+}
+
+function update() {
+    if (!isRewinding) {
+        // Record position every 50ms
+        if (this.time.now % 50 === 0) {
+            rewindStack.push({ x: player.x, y: player.y });
+            if (rewindStack.length > 100) rewindStack.shift(); // Keep 5 sec history
+        }
+
+        // Movement
+        if (cursors.left.isDown) player.x -= 3;
+        if (cursors.right.isDown) player.x += 3;
+        if (cursors.up.isDown) player.y -= 3;
+        if (cursors.down.isDown) player.y += 3;
+
+        // Collect orbs
+        this.physics.overlap(player, orbs, (player, orb) => {
+            orb.disableBody(true, true);
+        });
+    }
+}
+
+function rewindTime() {
+    if (rewindStack.length > 0) {
+        const pastState = rewindStack.pop();
+        player.x = pastState.x;
+        player.y = pastState.y;
+        player.setTint(0x
+963 ms ttft • 53.8 tokens/s
+
