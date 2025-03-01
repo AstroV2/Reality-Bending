@@ -93,5 +93,58 @@ function rewindTime() {
         player.x = pastState.x;
         player.y = pastState.y;
         player.setTint(0x
-963 ms ttft • 53.8 tokens/s
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Controls Display</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #1a1a1a; }
+        #controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: Arial, sans-serif;
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <h2 style="margin-top: 0;">CONTROLS</h2>
+        <p>🕹️ Movement: W/A/S/D or Arrow Keys<br>
+           ⏪ Rewind Time: SPACE<br>
+           ⏸️ Pause: ESC<br>
+           🔄 Reset Level: R<br>
+           ℹ️ Toggle Help: H</p>
+    </div>
+
+    <script>
+        // Toggle controls visibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'h') {
+                const controlsDiv = document.getElementById('controls');
+                controlsDiv.style.display = controlsDiv.style.display === 'none' ? 'block' : 'none';
+            }
+        });
+
+        // Optional: Auto-hide after 5 seconds
+        let helpTimeout;
+        function showTemporaryHelp() {
+            const controlsDiv = document.getElementById('controls');
+            controlsDiv.style.display = 'block';
+            clearTimeout(helpTimeout);
+            helpTimeout = setTimeout(() => {
+                controlsDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Show controls on first load
+        window.onload = showTemporaryHelp;
+    </script>
+</body>
+</html>
 
